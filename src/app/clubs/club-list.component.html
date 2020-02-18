@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-header">
+    {{ pageTitle }}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-2">Filter by:</div>
+      <div class="col-md-4">
+        <input type="text" [(ngModel)]="listFilter" />
+      </div>
+    </div>
+    <div class="row mt-3 mb-3">
+      <div class="col-md-6">
+        <h4>Filtered by: {{listFilter}}</h4>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table" *ngIf="clubs && clubs.length">
+        <thead>
+          <tr>
+            <th>
+              <button (click)="toggleImage()" class="btn btn-primary">
+                {{ showImage ? "Hide" : "Show" }} Image
+              </button>
+            </th>
+            <th>Club</th>
+            <th>Sport</th>
+            <th>Location</th>
+            <th>5 Star Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let club of clubs">
+            <td>
+              <img
+                [src]="club.clubImage"
+                title="club.clubName"
+                [style.width.px]="imageWidth"
+                [style.margin.px]="imageMargin"
+                *ngIf="showImage"
+              />
+            </td>
+            <td>{{ club.clubName }}</td>
+            <td>{{ club.clubSport }}</td>
+            <td>{{ club.clubLocation }}</td>
+            <td>{{ club.starRating }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
