@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { IClubs } from "./clubs";
 
 @Component({
   selector: "pm-clubs",
@@ -7,10 +8,10 @@ import { Component } from "@angular/core";
 export class ClubListComponent {
   pageTitle: string = "Club List";
   imageWidth: number = 50;
-    imageMargin: number = 2;
-    showImage: boolean = true;
-    listFilter: string = "cart";
-  clubs: any[] = [
+  imageMargin: number = 2;
+  showImage: boolean = true;
+  listFilter: string = "cart";
+  clubs: IClubs[] = [
     {
       clubId: 1,
       clubName: "Stuttgart GAA",
@@ -27,9 +28,9 @@ export class ClubListComponent {
       clubImage: "assets/images/stuttgart_logo.png",
       starRating: 4.2
     }
-    ];
-    
-    toggleImage(): void {
-        this.showImage = !this.showImage;
-    }
+  ];
+
+  toggleImage(): void {
+    this.showImage = !this.showImage;
+  }
 }
