@@ -24,7 +24,7 @@
               </button>
             </th>
             <th>Club</th>
-            <th>Sport</th>
+            <th>Code</th>
             <th>Location</th>
             <th>5 Star Rating</th>
           </tr>
@@ -41,7 +41,7 @@
               />
             </td>
             <td>{{ club.clubName }}</td>
-            <td>{{ club.clubSport }}</td>
+            <td>{{ club.clubCode | convertToSpaces:'-' }}</td>
             <td>{{ club.clubLocation }}</td>
             <td>{{ club.starRating }}</td>
           </tr>

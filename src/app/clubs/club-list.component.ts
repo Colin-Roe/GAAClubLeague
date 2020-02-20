@@ -1,11 +1,12 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { IClubs } from "./clubs";
 
 @Component({
   selector: "pm-clubs",
-  templateUrl: "./club-list.component.html"
+  templateUrl: "./club-list.component.html",
+  styleUrls: ["./club-list.component.css"]
 })
-export class ClubListComponent {
+export class ClubListComponent implements OnInit {
   pageTitle: string = "Club List";
   imageWidth: number = 50;
   imageMargin: number = 2;
@@ -15,7 +16,7 @@ export class ClubListComponent {
     {
       clubId: 1,
       clubName: "Stuttgart GAA",
-      clubSport: "Hurling",
+      clubCode: "ST-124",
       clubLocation: "Stuttgart",
       clubImage: "assets/images/stuttgart_logo.png",
       starRating: 3.5
@@ -23,7 +24,7 @@ export class ClubListComponent {
     {
       clubId: 2,
       clubName: "Darmstadt GAA",
-      clubSport: "Hurling",
+      clubCode: "ST-124",
       clubLocation: "Darmstadt",
       clubImage: "assets/images/stuttgart_logo.png",
       starRating: 4.2
@@ -32,5 +33,9 @@ export class ClubListComponent {
 
   toggleImage(): void {
     this.showImage = !this.showImage;
+  }
+
+  ngOnInit(): void {
+    console.log("In Oninit");
   }
 }
