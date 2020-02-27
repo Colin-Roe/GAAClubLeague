@@ -11,7 +11,7 @@
     </div>
     <div class="row mt-3 mb-3">
       <div class="col-md-6">
-        <h4>Filtered by: {{listFilter}}</h4>
+        <h4>Filtered by: {{ listFilter }}</h4>
       </div>
     </div>
     <div class="table-responsive">
@@ -30,7 +30,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let club of clubs">
+          <tr *ngFor="let club of filteredClubs">
             <td>
               <img
                 [src]="club.clubImage"
@@ -41,9 +41,9 @@
               />
             </td>
             <td>{{ club.clubName }}</td>
-            <td>{{ club.clubCode | convertToSpaces:'-' }}</td>
+            <td>{{ club.clubCode | convertToSpaces: "-" }}</td>
             <td>{{ club.clubLocation }}</td>
-            <td>{{ club.starRating }}</td>
+            <td><cl-star [rating]='club.starRating' (ratingClicked)='onRatingClicked($event)'></cl-star></td>
           </tr>
         </tbody>
       </table>
