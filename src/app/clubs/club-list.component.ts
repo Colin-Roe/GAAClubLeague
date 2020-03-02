@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { IClubs } from "./clubs";
-import { ClubService } from './club-servcies';
+import { ClubService } from "./club-servcies";
 
 @Component({
   selector: "pm-clubs",
@@ -12,6 +12,7 @@ export class ClubListComponent implements OnInit {
   imageWidth: number = 50;
   imageMargin: number = 2;
   showImage: boolean = true;
+  errorMessage: string;
 
   _listFilter: string;
   get listFilter(): string {
@@ -27,11 +28,10 @@ export class ClubListComponent implements OnInit {
   filteredClubs: IClubs[];
   clubs: IClubs[] = [];
 
-  constructor(private clubService: ClubService) {    
-  }
+  constructor(private clubService: ClubService) {}
 
   onRatingClicked(message: string): void {
-    this.pageTitle = 'Club List: ' + message;
+    this.pageTitle = "Club List: " + message;
   }
 
   performFilter(filterBy: string): IClubs[] {
@@ -47,7 +47,12 @@ export class ClubListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clubs = this.clubService.getClubs();
-    this.filteredClubs = this.clubs;
+    this.clubService.getClubs().subscribe({
+      next: clubs => {
+        this.clubs = clubs;
+        this.filteredClubs = this.clubs;
+      },
+      error: err => (this.errorMessage = err)
+    });
   }
 }

@@ -1,52 +1,38 @@
 import { Injectable } from "@angular/core";
-import { IClubs } from "./clubs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+
+import { IClubs } from "./clubs";   
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClubService {
-  getClubs(): IClubs[] {
-    return [
-      {
-        clubId: 1,
-        clubName: "Stuttgart GAA",
-        clubCode: "DE-12",
-        clubLocation: "Stuttgart",
-        clubImage: "assets/images/stuttgart_logo.png",
-        starRating: 3.5
-      },
-      {
-        clubId: 2,
-        clubName: "Darmstadt GAA",
-        clubCode: "DE-10",
-        clubLocation: "Darmstadt",
-        clubImage: "assets/images/darmstadt_logo.png",
-        starRating: 4.2
-      },
-      {
-        clubId: 3,
-        clubName: "Berlin GAA",
-        clubCode: "DE-8",
-        clubLocation: "Berlin",
-        clubImage: "assets/images/berlin_gaa_logo.png",
-        starRating: 4.0
-      },
-      {
-        clubId: 4,
-        clubName: "Zürich GAA",
-        clubCode: "DE-14",
-        clubLocation: "Zürich",
-        clubImage: "assets/images/zürich_gaa_logo.png",
-        starRating: 3.4
-      },
-      {
-        clubId: 5,
-        clubName: "Amsterdam GAA",
-        clubCode: "NL-6",
-        clubLocation: "Amsterdam",
-        clubImage: "assets/images/amsterdam_gaa_logo.png",
-        starRating: 4.6
-      }
-    ];
+  private clubUrl = 'api/clubs/clubs.json';
+
+  constructor(private http: HttpClient) {}
+
+  getClubs(): Observable<IClubs[]> {
+    return this.http.get<IClubs[]>(this.clubUrl).pipe(
+      tap(data => console.log('All: ' + JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let errorMessage = '';
+    if (err.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(errorMessage);
   }
 }
