@@ -3,7 +3,6 @@ import { IClubs } from "./clubs";
 import { ClubService } from "./club-servcies";
 
 @Component({
-  selector: "pm-clubs",
   templateUrl: "./club-list.component.html",
   styleUrls: ["./club-list.component.css"]
 })
