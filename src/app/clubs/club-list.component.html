@@ -40,7 +40,7 @@
                 *ngIf="showImage"
               />
             </td>
-            <td>{{ club.clubName }}</td>
+            <td><a [routerLink]="['/clubs', club.clubId]">{{ club.clubName }}</a></td>
             <td>{{ club.clubCode | convertToSpaces: "-" }}</td>
             <td>{{ club.clubLocation }}</td>
             <td><cl-star [rating]='club.starRating' (ratingClicked)='onRatingClicked($event)'></cl-star></td>

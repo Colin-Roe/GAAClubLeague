@@ -10,6 +10,7 @@ import { ConvertToSpacesPipe } from "./shared/convert-to-spaces";
 import { StarComponent } from "./shared/star.component";
 import { ClubDetailComponent } from "./clubs/club-detail.component";
 import { WelcomeComponent } from "./home/welcome.component";
+import { ClubDetailGuard } from "./clubs/club-detail.guard";
 
 @NgModule({
   declarations: [
@@ -25,8 +26,12 @@ import { WelcomeComponent } from "./home/welcome.component";
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: "clubs", component: ClubListComponent },
-      { path: "clubs/:id", component: ClubDetailComponent },
+      { path: "club-list", component: ClubListComponent },
+      {
+        path: "clubs/:id",
+        canActivate: [ClubDetailGuard],
+        component: ClubDetailComponent
+      },
       { path: "welcome", component: WelcomeComponent },
       { path: "", redirectTo: "welcome", pathMatch: "full" },
       { path: "**", redirectTo: "welcome", pathMatch: "full" }
