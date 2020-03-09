@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import { catchError, tap, map } from "rxjs/operators";
 
 import { IClubs } from "./clubs";   
 
@@ -18,6 +18,13 @@ export class ClubService {
       tap(data => console.log('All: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
+  }
+
+  getClub(id: number): Observable<IClubs | undefined> {
+    return this.getClubs()
+      .pipe(
+        map((clubs: IClubs[]) => clubs.find(c => c.clubId === id))
+      );
   }
 
   private handleError(err: HttpErrorResponse) {
