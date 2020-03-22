@@ -4,6 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import { ClubModule } from './clubs/club.module';
+import { MemberModule } from './members/member.module';
 import { AppRoutingModule } from './app-routing.module';
 import { WelcomeComponent } from './home/welcome.component';
 
@@ -16,6 +17,7 @@ import { WelcomeComponent } from './home/welcome.component';
     BrowserModule,
     HttpClientModule,
     ClubModule,
+    MemberModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent]
