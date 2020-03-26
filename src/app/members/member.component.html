@@ -73,26 +73,18 @@
               type="email"
               placeholder="Email (required)"
               formControlName="email"
-              [ngClass]="{
-                'is-invalid': memberForm.get('emailGroup').errors ||
-                  ((memberForm.get('emailGroup.email').touched ||
-                    memberForm.get('emailGroup.email').dirty) &&
-                  !memberForm.get('emailGroup.email').valid)
-              }"
+              [ngClass]="{ 'is-invalid': emailMessage }"
             />
             <span class="invalid-feedback">
-              <span *ngIf="memberForm.get('emailGroup.email').errors?.required">
-                Please enter your email address.
-              </span>
-              <span *ngIf="memberForm.get('emailGroup.email').errors?.email">
-                Please enter a valid email address.
-              </span>
+              {{ emailMessage }}
             </span>
           </div>
         </div>
 
         <div class="form-group row mb-2">
-          <label class="col-md-2 col-form-label" for="confirmEmailId">Confirm Email</label>
+          <label class="col-md-2 col-form-label" for="confirmEmailId"
+            >Confirm Email</label
+          >
           <div class="col-md-8">
             <input
               class="form-control"
@@ -101,14 +93,19 @@
               placeholder="Confirm Email (required)"
               formControlName="confirmEmail"
               [ngClass]="{
-                'is-invalid': memberForm.get('emailGroup').errors ||
+                'is-invalid':
+                  memberForm.get('emailGroup').errors ||
                   ((memberForm.get('emailGroup.confirmEmail').touched ||
                     memberForm.get('emailGroup.confirmEmail').dirty) &&
-                  !memberForm.get('emailGroup.confirmEmail').valid)
+                    !memberForm.get('emailGroup.confirmEmail').valid)
               }"
             />
             <span class="invalid-feedback">
-              <span *ngIf="memberForm.get('emailGroup.confirmEmail').errors?.required">
+              <span
+                *ngIf="
+                  memberForm.get('emailGroup.confirmEmail').errors?.required
+                "
+              >
                 Please confirm your email address.
               </span>
               <span *ngIf="memberForm.get('emailGroup').errors?.match">

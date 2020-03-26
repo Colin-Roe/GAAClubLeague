@@ -5,6 +5,7 @@ import {
   Validators,
   AbstractControl
 } from "@angular/forms";
+import { debounceTime } from "rxjs/operators";
 
 import { Member } from "./member";
 
@@ -30,6 +31,13 @@ function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
 export class MemberComponent implements OnInit {
   memberForm: FormGroup;
   member = new Member();
+  emailMessage: string;
+
+  private emailValidationMessages = {
+    // key value pair where the key is the validation rule name
+    required: "Please enter your email address.",
+    email: "Please enter a valid email address."
+  };
 
   constructor(private fb: FormBuilder) {}
 
@@ -37,13 +45,29 @@ export class MemberComponent implements OnInit {
     this.memberForm = this.fb.group({
       firstName: ["", [Validators.required, Validators.minLength(3)]],
       lastName: ["", [Validators.required, Validators.maxLength(50)]],
-      emailGroup: this.fb.group({
-        email: ["", [Validators.required, Validators.email]],
-        confirmEmail: ["", Validators.required]
-      }, { validator: emailMatcher }),
-      
+      emailGroup: this.fb.group(
+        {
+          email: ["", [Validators.required, Validators.email]],
+          confirmEmail: ["", Validators.required]
+        },
+        { validator: emailMatcher }
+      ),
       addAddress: true
     });
+
+    const emailControl = this.memberForm.get("emailGroup.email");
+    emailControl.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe(value => this.setMessage(emailControl));
+  }
+
+  setMessage(c: AbstractControl): void {
+    this.emailMessage = "";
+    if ((c.touched || c.dirty) && c.errors) {
+      this.emailMessage = Object.keys(c.errors)
+        .map(key => this.emailValidationMessages[key])
+        .join(" ");
+    }
   }
 
   save() {
