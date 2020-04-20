@@ -1,0 +1,158 @@
+<div class="card">
+  <div class="card-header">
+    {{ pageTitle }}
+  </div>
+
+  <div class="card-body">
+    <form novalidate (ngSubmit)="save()" [formGroup]="editClubForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="clubNameId"
+          >Club Name</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="clubNameId"
+            type="text"
+            placeholder="Club Name (required)"
+            formControlName="clubName"
+            [ngClass]="{
+              'is-invalid':
+                (editClubForm.get('clubName').touched ||
+                  editClubForm.get('clubName').dirty) &&
+                !editClubForm.get('clubName').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="editClubForm.get('clubName').errors?.required">
+              Please enter the club name.
+            </span>
+            <span *ngIf="editClubForm.get('clubName').errors?.minlength">
+              The club name must be longer than 3 characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="clubCodeId"
+          >Club Code</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="clubCodeId"
+            type="text"
+            placeholder="Club Code (required)"
+            formControlName="clubCode"
+            [ngClass]="{
+              'is-invalid':
+                (editClubForm.get('clubCode').touched ||
+                  editClubForm.get('clubCode').dirty) &&
+                !editClubForm.get('clubCode').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="editClubForm.get('clubCode').errors?.required">
+              Please enter club code.
+            </span>
+            <span *ngIf="editClubForm.get('clubCode').errors?.minlength">
+              The club code must be more than 5 characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="clubLocationId"
+          >Club Location</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="clubLocationId"
+            type="text"
+            placeholder="Club location (required)"
+            formControlName="clubLocation"
+            [ngClass]="{
+              'is-invalid':
+                (editClubForm.get('clubLocation').touched ||
+                  editClubForm.get('clubLocation').dirty) &&
+                !editClubForm.get('clubLocation').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="editClubForm.get('clubLocation').errors?.required">
+              Please enter the club location.
+            </span>
+            <span *ngIf="editClubForm.get('clubLocation').errors?.minlength">
+              The club location must be longer than 3 characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="starRatingId">Star Rating (1-5)</label>
+
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="starRatingId"
+                 type="text"
+                 placeholder="Rating (1-5)"
+                 formControlName="starRating"
+                 [ngClass]="{
+              'is-invalid':
+                (editClubForm.get('starRating').touched ||
+                  editClubForm.get('starRating').dirty) &&
+                !editClubForm.get('starRating').valid
+            }" />
+          <span class="invalid-feedback" *ngIf="editClubForm.get('starRating').errors?.required">
+            Please enter a star rating.
+          </span>
+          <span class="invalid-feedback" *ngIf="editClubForm.get('starRating').errors?.range">
+            Please rate your experience from 1 to 5.
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="col-md-8">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                id="addAddressId"
+                type="checkbox"
+                formControlName="addAddress"
+              />
+              Add my address
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="col-md-4">
+          <button
+            class="btn btn-primary mr-3"
+            type="submit"
+            style="width: 80px;"
+            [title]="
+              editClubForm.valid
+                ? 'Save your entered data'
+                : 'Disabled until the form data is valid'
+            "
+            [disabled]="!editClubForm.valid"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<br />Dirty: {{ editClubForm.dirty }} <br />Touched: {{ editClubForm.touched }}
+<br />Valid: {{ editClubForm.valid }} <br />Value:
+{{ editClubForm.value | json }}

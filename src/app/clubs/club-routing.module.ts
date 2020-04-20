@@ -4,6 +4,7 @@ import { RouterModule } from "@angular/router";
 import { ClubListComponent } from "./club-list.component";
 import { ClubDetailGuard } from "./club-detail.guard";
 import { ClubDetailComponent } from "./club-detail.component";
+import { ClubEditComponent } from './club-edit.component';
 
 @NgModule({
   declarations: [],
@@ -15,7 +16,8 @@ import { ClubDetailComponent } from "./club-detail.component";
         path: "clubs/:id",
         canActivate: [ClubDetailGuard],
         component: ClubDetailComponent
-      }
+      },
+      { path: 'clubs/:id/edit', component: ClubEditComponent }
     ])
   ],
   exports: [RouterModule]
