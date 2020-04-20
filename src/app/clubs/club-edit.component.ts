@@ -9,22 +9,11 @@ import {
 import { ActivatedRoute } from "@angular/router";
 
 import { Subscription } from "rxjs";
-import { debounceTime } from "rxjs/operators";
 
 import { IClubs } from "./clubs";
 import { ClubService } from "./club-servcies";
 
-function ratingsRange(min: number, max: number): ValidatorFn {
-  return (c: AbstractControl): { [key: string]: boolean } | null => {
-    if (
-      c.value !== null &&
-      (isNaN(c.value) || c.value < min || c.value > max)
-    ) {
-      return { range: true };
-    }
-    return null;
-  };
-}
+import { NumberValidators } from "../shared/number.validator";
 
 @Component({
   selector: "pm-club-edit",
@@ -49,7 +38,7 @@ export class ClubEditComponent implements OnInit {
       clubName: ["", [Validators.required, Validators.minLength(3)]],
       clubCode: ["", [Validators.required, Validators.minLength(3)]],
       clubLocation: ["", [Validators.required, Validators.minLength(3)]],
-      starRating: [null, ratingsRange(1, 5)],
+      starRating: [null, NumberValidators.range(1, 5)],
     });
 
     // Read the club Id from the route parameter
