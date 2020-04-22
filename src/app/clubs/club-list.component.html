@@ -40,11 +40,25 @@
                 *ngIf="showImage"
               />
             </td>
-            <td><a [routerLink]="['/clubs', club.clubId]">{{ club.clubName }}</a></td>
+            <td>
+              <a [routerLink]="['/clubs', club.id]">{{ club.clubName }}</a>
+            </td>
             <td>{{ club.clubCode | convertToSpaces: "-" }}</td>
             <td>{{ club.clubLocation }}</td>
-            <td><cl-star [rating]='club.starRating' (ratingClicked)='onRatingClicked($event)'></cl-star></td>
-            <td><button class="btn btn-outline-primary btn-sm" [routerLink]="['/clubs', club.clubId, 'edit']">Edit</button></td>
+            <td>
+              <cl-star
+                [rating]="club.starRating"
+                (ratingClicked)="onRatingClicked($event)"
+              ></cl-star>
+            </td>
+            <td>
+              <button
+                class="btn btn-outline-primary btn-sm"
+                [routerLink]="['/clubs', club.clubId, 'edit']"
+              >
+                Edit
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

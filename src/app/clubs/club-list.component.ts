@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { IClubs } from "./clubs";
-import { ClubService } from "./club-servcies";
+import { ClubService } from "./club.servcie";
 
 @Component({
   templateUrl: "./club-list.component.html",

@@ -7,6 +7,10 @@ import { ClubDetailComponent } from './club-detail.component';
 import { ClubEditComponent } from './club-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+// Imports for loading & confuguring the in-memory web api
+import { InMemoryWebApiModule } from "angular-in-memory-web-api";
+import { ClubData } from "./club-data";
+
 
 
 @NgModule({
@@ -14,12 +18,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     ClubListComponent,
     ClubDetailComponent,
     ConvertToSpacesPipe,
-    ClubEditComponent
+    ClubEditComponent,
   ],
   imports: [
     SharedModule,
     ClubRoutingModule,
-    ReactiveFormsModule
-  ]
+    InMemoryWebApiModule.forRoot(ClubData),
+    ReactiveFormsModule,
+  ],
 })
-export class ClubModule { }
+export class ClubModule {}

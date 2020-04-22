@@ -1,5 +1,5 @@
 export interface IClubs {
-  clubId: number;
+  id: number;
   clubName: string;
   clubCode: string;
   clubLocation: string;

@@ -23,7 +23,7 @@ export class ClubService {
   getClub(id: number): Observable<IClubs | undefined> {
     return this.getClubs()
       .pipe(
-        map((clubs: IClubs[]) => clubs.find(c => c.clubId === id))
+        map((clubs: IClubs[]) => clubs.find(c => c.id === id))
       );
   }
 

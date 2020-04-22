@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { IClubs } from "./clubs";
-import { ClubService } from "./club-servcies";
+import { ClubService } from "./club.servcie";
 
 @Component({
   templateUrl: "./club-detail.component.html",

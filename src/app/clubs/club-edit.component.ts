@@ -11,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { IClubs } from "./clubs";
-import { ClubService } from "./club-servcies";
+import { ClubService } from "./club.servcie";
 
 import { NumberValidators } from "../shared/number.validator";
 
@@ -65,7 +65,7 @@ export class ClubEditComponent implements OnInit {
     }
     this.club = club;
 
-    if (this.club.clubId === 0) {
+    if (this.club.id === 0) {
       this.pageTitle = "Add Club";
     } else {
       this.pageTitle = `Edit Club: ${this.club.clubName}`;
