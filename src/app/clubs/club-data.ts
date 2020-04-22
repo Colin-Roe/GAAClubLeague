@@ -1,13 +1,13 @@
-import { IClubs } from "./clubs";
+import { IClub } from "./club";
 import { InMemoryDbService } from "angular-in-memory-web-api";
 
 export class ClubData implements InMemoryDbService {
   createDb() {
-    const clubs: IClubs[] = [
+    const club: IClub[] = [
       {
         id: 1,
         clubName: "Stuttgart GAA",
-        clubCode: "DE-12",
+        clubCode: "DE-14",
         clubLocation: "Stuttgart",
         clubImage: "assets/images/stuttgart_logo.png",
         starRating: 3.5,
@@ -45,6 +45,6 @@ export class ClubData implements InMemoryDbService {
         starRating: 4.6,
       },
     ];
-    return { clubs };
+    return { club };
   }
 }

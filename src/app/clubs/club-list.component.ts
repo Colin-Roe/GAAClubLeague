@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { IClubs } from "./clubs";
+import { IClub } from "./club";
 import { ClubService } from "./club.servcie";
 
 @Component({
   templateUrl: "./club-list.component.html",
-  styleUrls: ["./club-list.component.css"]
+  styleUrls: ["./club-list.component.css"],
 })
 export class ClubListComponent implements OnInit {
   pageTitle: string = "Club List";
@@ -24,8 +24,8 @@ export class ClubListComponent implements OnInit {
       : this.clubs;
   }
 
-  filteredClubs: IClubs[];
-  clubs: IClubs[] = [];
+  filteredClubs: IClub[];
+  clubs: IClub[] = [];
 
   constructor(private clubService: ClubService) {}
 
@@ -33,10 +33,10 @@ export class ClubListComponent implements OnInit {
     this.pageTitle = "Club List: " + message;
   }
 
-  performFilter(filterBy: string): IClubs[] {
+  performFilter(filterBy: string): IClub[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.clubs.filter(
-      (club: IClubs) =>
+      (club: IClub) =>
         club.clubName.toLocaleLowerCase().indexOf(filterBy) !== -1
     );
   }
@@ -47,11 +47,11 @@ export class ClubListComponent implements OnInit {
 
   ngOnInit(): void {
     this.clubService.getClubs().subscribe({
-      next: clubs => {
+      next: (clubs) => {
         this.clubs = clubs;
         this.filteredClubs = this.clubs;
       },
-      error: err => (this.errorMessage = err)
+      error: (err) => (this.errorMessage = err),
     });
   }
 }

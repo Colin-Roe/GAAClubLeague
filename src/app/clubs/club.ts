@@ -1,4 +1,4 @@
-export interface IClubs {
+export interface IClub {
   id: number;
   clubName: string;
   clubCode: string;

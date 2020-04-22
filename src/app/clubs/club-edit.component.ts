@@ -6,11 +6,11 @@ import {
   AbstractControl,
   ValidatorFn,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
 
-import { IClubs } from "./clubs";
+import { IClub } from "./club";
 import { ClubService } from "./club.servcie";
 
 import { NumberValidators } from "../shared/number.validator";
@@ -23,13 +23,14 @@ import { NumberValidators } from "../shared/number.validator";
 export class ClubEditComponent implements OnInit {
   pageTitle: string;
   editClubForm: FormGroup;
-  club: IClubs;
+  club: IClub;
   errorMessage: string;
   private sub: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private clubService: ClubService
   ) {}
 
@@ -54,12 +55,12 @@ export class ClubEditComponent implements OnInit {
 
   getClub(id: number): void {
     this.clubService.getClub(id).subscribe({
-      next: (club: IClubs) => this.displayClub(club),
+      next: (club: IClub) => this.displayClub(club),
       error: (err) => (this.errorMessage = err),
     });
   }
 
-  displayClub(club: IClubs): void {
+  displayClub(club: IClub): void {
     if (this.editClubForm) {
       this.editClubForm.reset();
     }
@@ -79,8 +80,33 @@ export class ClubEditComponent implements OnInit {
     });
   }
 
-  save() {
-    console.log(this.editClubForm);
-    console.log("Saved: " + JSON.stringify(this.editClubForm.value));
+  saveClub(): void {
+    if (this.editClubForm.valid) {
+      if (this.editClubForm.dirty) {
+        const c = { ...this.club, ...this.editClubForm.value };
+
+        if (c.Id === 0) {
+          this.clubService.createClub(c).subscribe({
+            next: () => this.onSaveComplete(),
+            error: err => this.errorMessage = err
+          });
+        } else {
+          this.clubService.updateClub(c).subscribe({
+            next: () => this.onSaveComplete(),
+            error: err => this.errorMessage = err
+          });
+        }
+      } else {
+        this.onSaveComplete();
+      }
+    } else {
+      this.errorMessage = 'Please correct the validation errors.';
+    }
+  }
+
+  onSaveComplete(): void {
+    // Reset the form to clear the flags
+    this.editClubForm.reset();
+    this.router.navigate(['/club-list']);
   }
 }
