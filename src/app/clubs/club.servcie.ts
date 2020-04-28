@@ -8,6 +8,7 @@ import { Observable, throwError, of } from "rxjs";
 import { catchError, tap, map } from "rxjs/operators";
 
 import { IClub } from "./club";
+import { ClubTrackerError } from '../models/clubTrackerError';
 
 @Injectable({
   providedIn: "root",
@@ -17,59 +18,58 @@ export class ClubService {
 
   constructor(private http: HttpClient) {}
 
-  getClubs(): Observable<IClub[]> {
+  getClubs(): Observable<IClub[] | ClubTrackerError> {
     return this.http.get<IClub[]>(this.clubUrl).pipe(
       tap((data) => console.log("All: " + JSON.stringify(data))),
-      catchError(this.handleError)
+      catchError(err => this.handleHttpError(err))
     );
   }
 
-  getClub(id: number): Observable<IClub> {
+  getClub(id: number): Observable<IClub | ClubTrackerError> {
     if (id === 0) {
       return of(this.initializeClub());
     }
     const url = `${this.clubUrl}/${id}`;
     return this.http.get<IClub>(url).pipe(
       tap((data) => console.log("getClub: " + JSON.stringify(data))),
-      catchError(this.handleError)
+      catchError(this.handleHttpError)
     );
   }
 
-  createClub(club: IClub): Observable<IClub> {
+  createClub(club: IClub): Observable<IClub | ClubTrackerError> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     club.id = null;
     return this.http.post<IClub>(this.clubUrl, club, { headers })
       .pipe(
         tap(data => console.log('createClub: ' + JSON.stringify(data))),
-        catchError(this.handleError)
+        catchError(this.handleHttpError)
       );
   }
 
-  updateClub(club: IClub): Observable<IClub> {
+  updateClub(club: IClub): Observable<IClub | ClubTrackerError> {
     const headers = new HttpHeaders({ "Content-Type": "application/json" });
     const url = `${this.clubUrl}/${club.id}`;
     return this.http.post<IClub>(url, club, { headers: headers }).pipe(
       tap(() => console.log("updateClub:" + club.id)),
       // Return the club on a update
       map(() => club),
-      catchError(this.handleError)
+      catchError(err => this.handleHttpError(err))
     );
   }
 
-  private handleError(err: HttpErrorResponse) {
+  deleteClub(clubId: number): Observable<void> {
+    const url = `${this.clubUrl}/${clubId}`;
+    return this.http.delete<void>(url)
+  }
+
+  private handleHttpError(err: HttpErrorResponse): Observable<ClubTrackerError> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
-    let errorMessage = "";
-    if (err.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `An error occurred: ${err.error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(errorMessage);
+    let dataError = new ClubTrackerError();
+    dataError.errorNumber = 100;
+    dataError.message = err.statusText;
+    dataError.friendlyMessage = "An error ocurred retrieving data.";
+    return throwError(dataError);
   }
 
   private initializeClub(): IClub {

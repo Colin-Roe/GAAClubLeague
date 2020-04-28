@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { IClub } from "./club";
 import { ClubService } from "./club.servcie";
+import { ClubTrackerError } from '../models/clubTrackerError';
 
 @Component({
   templateUrl: "./club-list.component.html",
@@ -47,9 +48,19 @@ export class ClubListComponent implements OnInit {
 
   ngOnInit(): void {
     this.clubService.getClubs().subscribe({
-      next: (clubs) => {
+      next: (clubs: IClub[]) => {
         this.clubs = clubs;
         this.filteredClubs = this.clubs;
+      },
+      error: (err: ClubTrackerError) => (this.errorMessage = err.friendlyMessage),
+    });
+  }
+
+  deleteClub(clubId: number): void {
+    this.clubService.deleteClub(clubId).subscribe({
+      next: () => {
+        let index: number = this.clubs.findIndex((club) => club.id == clubId);
+        this.clubs.splice(index, 1);
       },
       error: (err) => (this.errorMessage = err),
     });

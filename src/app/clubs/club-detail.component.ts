@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { IClub } from "./club";
 import { ClubService } from "./club.servcie";
+import { ClubTrackerError } from '../models/clubTrackerError';
 
 @Component({
   templateUrl: "./club-detail.component.html",
@@ -29,8 +30,8 @@ export class ClubDetailComponent implements OnInit {
 
   getClub(id: number) {
     this.clubService.getClub(id).subscribe({
-      next: (club) => (this.club = club),
-      error: (err) => (this.errorMessage = err),
+      next: (club: IClub) => (this.club = club),
+      error: (err: ClubTrackerError) => (console.log(err.friendlyMessage)),
     });
   }
 
