@@ -10,10 +10,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
 
-import { IClub } from "./club";
-import { ClubService } from "./club.servcie";
+import { IClub } from "../members/club";
+import { ClubService } from "../core/club.servcie";
 
 import { NumberValidators } from "../shared/number.validator";
+import { ClubTrackerError } from '../models/clubTrackerError';
 
 @Component({
   selector: "pm-club-edit",
@@ -56,7 +57,7 @@ export class ClubEditComponent implements OnInit {
   getClub(id: number): void {
     this.clubService.getClub(id).subscribe({
       next: (club: IClub) => this.displayClub(club),
-      error: (err) => (this.errorMessage = err),
+      error: (err: ClubTrackerError) => (console.log(err.friendlyMessage)),
     });
   }
 

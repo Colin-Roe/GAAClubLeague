@@ -7,7 +7,7 @@ import {
 import { Observable, throwError, of } from "rxjs";
 import { catchError, tap, map } from "rxjs/operators";
 
-import { IClub } from "./club";
+import { IClub } from "../members/club";
 import { ClubTrackerError } from '../models/clubTrackerError';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class ClubService {
     const url = `${this.clubUrl}/${id}`;
     return this.http.get<IClub>(url).pipe(
       tap((data) => console.log("getClub: " + JSON.stringify(data))),
-      catchError(this.handleHttpError)
+      catchError(err => this.handleHttpError(err))
     );
   }
 
@@ -42,7 +42,7 @@ export class ClubService {
     return this.http.post<IClub>(this.clubUrl, club, { headers })
       .pipe(
         tap(data => console.log('createClub: ' + JSON.stringify(data))),
-        catchError(this.handleHttpError)
+        catchError(err => this.handleHttpError(err))
       );
   }
 

@@ -1,4 +1,4 @@
-import { IClub } from "./club";
+import { IClub } from "../members/club";
 import { InMemoryDbService } from "angular-in-memory-web-api";
 
 export class ClubData implements InMemoryDbService {
