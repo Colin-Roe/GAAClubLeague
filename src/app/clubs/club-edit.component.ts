@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
 
-import { IClub } from "../members/club";
+import { IClub } from "../models/club";
 import { ClubService } from "../core/club.servcie";
 
 import { NumberValidators } from "../shared/number.validator";

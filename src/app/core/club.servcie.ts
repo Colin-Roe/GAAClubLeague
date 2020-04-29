@@ -7,7 +7,7 @@ import {
 import { Observable, throwError, of } from "rxjs";
 import { catchError, tap, map } from "rxjs/operators";
 
-import { IClub } from "../members/club";
+import { IClub } from "../models/club";
 import { ClubTrackerError } from '../models/clubTrackerError';
 
 @Injectable({

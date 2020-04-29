@@ -23,7 +23,7 @@ import { ClubData } from "./club-data";
   imports: [
     SharedModule,
     ClubRoutingModule,
-    InMemoryWebApiModule.forRoot(ClubData),
+    InMemoryWebApiModule.forRoot(ClubData, { delay: 1000 }),
     ReactiveFormsModule,
   ],
 })

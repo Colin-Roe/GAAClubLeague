@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { IClub } from "../members/club";
+import { IClub } from "../models/club";
 import { ClubService } from "../core/club.servcie";
 import { ClubTrackerError } from '../models/clubTrackerError';
 
