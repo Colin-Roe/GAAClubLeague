@@ -3,6 +3,7 @@ import { IClub } from "../models/club";
 import { ClubService } from "../core/club.servcie";
 import { ClubTrackerError } from '../models/clubTrackerError';
 import { ActivatedRoute } from '@angular/router';
+import { LoggerService } from '../core/logger.service';
 
 @Component({
   templateUrl: "./club-list.component.html",
@@ -29,7 +30,7 @@ export class ClubListComponent implements OnInit {
   filteredClubs: IClub[];
   clubs: IClub[] = [];
 
-  constructor(private clubService: ClubService, private route: ActivatedRoute) {}
+  constructor(private clubService: ClubService, private route: ActivatedRoute, private loggerService: LoggerService) {}
 
   onRatingClicked(message: string): void {
     this.pageTitle = "Club List: " + message;
@@ -51,7 +52,7 @@ export class ClubListComponent implements OnInit {
     let resolvedData: IClub[] | ClubTrackerError = this.route.snapshot.data['resolvedClubs'];
 
     if (resolvedData instanceof ClubTrackerError) {
-      console.log(`Club List component error': ${resolvedData.friendlyMessage}`);
+      this.loggerService.log(`Club List component error': ${resolvedData.friendlyMessage}`);
     } else {
       this.clubs = resolvedData;
       this.filteredClubs = this.clubs;

@@ -7,6 +7,7 @@ import { ClubModule } from './clubs/club.module';
 import { MemberModule } from './members/member.module';
 import { AppRoutingModule } from './app-routing.module';
 import { WelcomeComponent } from './home/welcome.component';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { WelcomeComponent } from './home/welcome.component';
     HttpClientModule,
     ClubModule,
     MemberModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

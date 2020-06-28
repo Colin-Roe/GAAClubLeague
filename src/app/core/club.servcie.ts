@@ -8,20 +8,19 @@ import { Observable, throwError, of } from "rxjs";
 import { catchError, tap, map } from "rxjs/operators";
 
 import { IClub } from "../models/club";
-import { ClubTrackerError } from '../models/clubTrackerError';
+import { ClubTrackerError } from "../models/clubTrackerError";
+import { LoggerService } from './logger.service';
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class ClubService {
   private clubUrl = "api/club";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private loggerService: LoggerService) {}
 
   getClubs(): Observable<IClub[] | ClubTrackerError> {
     return this.http.get<IClub[]>(this.clubUrl).pipe(
-      tap((data) => console.log("All: " + JSON.stringify(data))),
-      catchError(err => this.handleHttpError(err))
+      tap((data) => this.loggerService.log("All: " + JSON.stringify(data))),
+      catchError((err) => this.handleHttpError(err))
     );
   }
 
@@ -31,38 +30,37 @@ export class ClubService {
     }
     const url = `${this.clubUrl}/${id}`;
     return this.http.get<IClub>(url).pipe(
-      tap((data) => console.log("getClub: " + JSON.stringify(data))),
-      catchError(err => this.handleHttpError(err))
+      tap((data) => this.loggerService.log("getClub: " + JSON.stringify(data))),
+      catchError((err) => this.handleHttpError(err))
     );
   }
 
   createClub(club: IClub): Observable<IClub | ClubTrackerError> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     club.id = null;
-    return this.http.post<IClub>(this.clubUrl, club, { headers })
-      .pipe(
-        tap(data => console.log('createClub: ' + JSON.stringify(data))),
-        catchError(err => this.handleHttpError(err))
-      );
+    return this.http.post<IClub>(this.clubUrl, club).pipe(
+      tap((data) => this.loggerService.log("createClub: " + JSON.stringify(data))),
+      catchError((err) => this.handleHttpError(err))
+    );
   }
 
   updateClub(club: IClub): Observable<IClub | ClubTrackerError> {
-    const headers = new HttpHeaders({ "Content-Type": "application/json" });
     const url = `${this.clubUrl}/${club.id}`;
-    return this.http.post<IClub>(url, club, { headers: headers }).pipe(
-      tap(() => console.log("updateClub:" + club.id)),
+    return this.http.post<IClub>(url, club).pipe(
+      tap(() => this.loggerService.log("updateClub:" + club.id)),
       // Return the club on a update
       map(() => club),
-      catchError(err => this.handleHttpError(err))
+      catchError((err) => this.handleHttpError(err))
     );
   }
 
   deleteClub(clubId: number): Observable<void> {
     const url = `${this.clubUrl}/${clubId}`;
-    return this.http.delete<void>(url)
+    return this.http.delete<void>(url);
   }
 
-  private handleHttpError(err: HttpErrorResponse): Observable<ClubTrackerError> {
+  private handleHttpError(
+    err: HttpErrorResponse
+  ): Observable<ClubTrackerError> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     let dataError = new ClubTrackerError();
